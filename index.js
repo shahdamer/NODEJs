@@ -7,13 +7,12 @@ const morgan = require ("morgan");
 // import errorHandler from "./middlewares/errorHandler";
 const app = express();
 const db = require ("./DB/connection");
-// import associations from './models/Associations';
 // import router from "./routes";
 // import cors from 'cors';
-const user =require ("./DB/model/user");
-const officer =require ("./DB/model/officer");
-const car =require ("./DB/model/car");
-const violation =require ("./DB/model/violation");
+// const user =require ("./DB/model/user");
+// const officer =require ("./DB/model/officer");
+// const car =require ("./DB/model/car");
+// const violation =require ("./DB/model/violation");
 
 app.use(cookieParser());
 app.use(bodyParser.json());
