@@ -4,26 +4,27 @@ const bodyParser = require ('body-parser');
 const express = require ('express')
 const cookieParser = require ('cookie-parser');
 const morgan = require ("morgan");
-// import errorHandler from "./middlewares/errorHandler";
 const app = express();
 const db = require ("./DB/connection");
-// import router from "./routes";
-// import cors from 'cors';
+app.use(express.json());
+
 // const user =require ("./DB/model/user");
 // const officer =require ("./DB/model/officer");
 // const car =require ("./DB/model/car");
 // const violation =require ("./DB/model/violation");
 
+const authRouter=require('./routers/authRouter')
+app.use('/api/auth',authRouter);
+const violationRouter=require('./routers/violationRouter')
+app.use('/api/violation',violationRouter);
+
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(express.json());
-app.use(morgan('dev')); // Create new morgan logger middleware function
+
+app.use(morgan('dev')); 
 
 const PORT = 3307;
-
-// app.use('/api', router);
-// app.use(errorHandler);
-
+ 
 db.sync({logging: false , force:false})
     .then((value) => {
         console.log('All models were synchronized successfully.');

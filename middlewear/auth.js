@@ -1,19 +1,27 @@
 var jwt = require('jsonwebtoken');
-const { userModel } = require('../DB/model/user.model');
-const auth=()=>{
-    return async (req,res,next)=>{
-
+const verifyToken = async (req,res,next)=>{
+        try {
         let {token}=req.headers;
-        if(!token.startsWith(process.env.AUTHTOKEN)){
-            res.json({message:"invalid bearer token"});
+        console.log (token);
+           const decoded=await jwt.verify(token,process.env.SIGNINTOKEN)//الملعومات الي جوا التوكين
+           const {username, role} = decoded;
+           req.user = {
+            username,
+            role
         }
-        else{
-            token = token.split(process.env.AUTHTOKEN)[1];
-            const decoded=await jwt.verify(token,process.env.SIGNINTOKEN)//الملعومات الي جوا التوكين
-            const user = await userModel.findById(decoded.id)
-            req.user=user;
+        console.log (username, role);
             next()
-        }
-    }
+    
+} catch (error) {
+    return res.status(401).json({
+        success: false,
+        message: 'Invalid access token',
+        status: 401,
+    });
 }
-module.exports={auth}
+}
+
+module.exports={verifyToken}
+
+
+

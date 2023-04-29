@@ -14,6 +14,10 @@ User.init({
   password:{
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  role:{
+    type: DataTypes.STRING,
+    allowNull: false,
   }
 }, {
   sequelize,
